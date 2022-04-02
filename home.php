@@ -1,38 +1,25 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['verificar'])){
+        header("location: ./index.php");  
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maestria ITSM - Home</title>
-    <link rel="icon" href="/assets/media/logos/logo-oficial.png">
-    <!-- Bootstrap link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
+    <title>Maestria ITSM - Home</title>
+    <?php
+        include("./inc/link.php")
+    ?>
 </head>
 
 <body>
-    <div class="container-row mt-2">
-        <div class="row">
-            <div class="col col-md-1 col-lg-1 col-sm-1"></div>
-
-            <div class="col col-md-3 col-lg-4 col-10">
-                <img src="/assets/media/logos/logo-oficial.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-
-            <div class="col col-md-4 col-lg-4 col-mb-0">
-                <img src="/assets/media/logos/Tecnm-logo.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-            <div class="col-md-4 col-lg-3 col col-mb-0">
-                <img src="assets/media/logos/MARCAVERACRUZ.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-            <div class="col-lg-1"></div>
-            <br>
-        </div>
-    </div>
-
+    <?php
+        include("./inc/navbar.php")
+    ?>
     <div class="container">
         <h1 class="title" style="text-align: center;">Bienvenido al sistema de Maestría del TecNM Campus Misantla</h1>
         <hr>
@@ -85,18 +72,9 @@
     </div>
 
 
-
-
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-
-
+    <?php
+        include("./inc/footer.php")
+    ?>
 </body>
 
 </html>
