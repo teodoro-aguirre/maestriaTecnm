@@ -33,9 +33,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdownMenuGobierno" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false" href="#">...</a>
+                        data-bs-toggle="dropdown" aria-expanded="false" href="#">Tutoría</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuGobierno">
-                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">...</a></li>
+                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">MSC</a></li>
+                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">MII</a></li>
+                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">DCI</a></li>
                     </ul>
                 </li>
             </ul>

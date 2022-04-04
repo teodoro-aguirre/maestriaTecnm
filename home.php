@@ -36,7 +36,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="matriculaModalLabel">Ingresar Matricula</h5>
+                    <h5 class="modal-title" id="matriculaModalLabel">Entrevista</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body style=" text-align: center; "">
@@ -44,21 +44,20 @@
                         <div class="field">
                             <div class="control">
                                 <p class="control has-icons-left has-icons-right">
-                                    <label for="matriculaFormControlInput" class="form-label">Matricula</label>
-                                    <input type="text" class="form-control" id="matriculaFormControlInput"
-                                        placeholder="202t0324">
+                                    <label for="matriculaFormControlInput" class="form-label">Tipo: </label>
+
+                                    <select class="form-select" aria-label="Default select example" required>
+                                        <option value="inicio" selected>Inicio de semestre</option>
+                                        <option value="final">Final de semestre</option>
+                                        <option value="extr">Extraordinaria</option>
+                                    </select>
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
                                 </p>
                             </div>
                         </div>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Seleccionar</option>
-                            <option value="inicio">Inicio Semestre</option>
-                            <option value="final">Final Semestre</option>
-                          </select>
-                          <br>
+                        <br>
                         <div class="mt-6 has-text-centered">
                             <a href="./entrevista.html" class="btn btn-success">Iniciar Entrevista</a>
                         </div>
