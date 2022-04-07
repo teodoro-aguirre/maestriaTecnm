@@ -33,7 +33,7 @@
                     <a href="./aspirantes" class="button is-primary">PROCESOS</a>
                 </div>
                 <div class="column">
-                    <a href="#" class="button is-primary">ESTUDIANTES</a>
+                    <a href="./estudiantes" class="button is-primary">ESTUDIANTES</a>
                 </div>
                 <?php if($_SESSION['tipo'] == "ADMINISTRADOR"): ?>
                 <div class="column">
