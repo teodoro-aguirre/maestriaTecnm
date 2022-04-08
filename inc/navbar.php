@@ -1,4 +1,4 @@
-<?php $url = "https://tecmisantla.tech/posgrado" ?>
+<?php $url = "http://localhost/posgrado" ?>
 <div class="container-row mt-2">
     <div class="row">
         <div class="col col-md-1 col-lg-1 col-sm-1"></div>
@@ -35,9 +35,7 @@
                     <a class="nav-link active dropdown-toggle" id="navbarDropdownMenuGobierno" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false" href="#">Tutoría</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuGobierno">
-                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">MSC</a></li>
-                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">MII</a></li>
-                        <li><a class="dropdown-item" href="<?= $url ?>presidencia">DCI</a></li>
+                        <li><a class="dropdown-item" href="<?= $url ?>/tutorados">Tutorados</a></li>
                     </ul>
                 </li>
             </ul>
