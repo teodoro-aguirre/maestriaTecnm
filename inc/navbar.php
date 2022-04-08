@@ -62,7 +62,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <a type="button" href="./process/logout.php" class="btn btn-danger">Salir</a>
+        <a type="button" href="<?= $url ?>/process/logout.php" class="btn btn-danger">Salir</a>
       </div>
     </div>
   </div>

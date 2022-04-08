@@ -17,7 +17,7 @@
 
     <section class="section">
         <div class="container">
-            <a href="./lista.php" class="button is-info">REGRESAR</a>
+            <a href="./" class="button is-info">REGRESAR</a>
             <h1 class="is-title has-text-centered">REGISTRAR ALUMNO</h1>
 
             <form action="./registroAlumno.php" method="POST" class="form">
@@ -94,13 +94,13 @@
                                 <select name="curpDocente" required>
                                     <?php
                                     include "../php/conexion.php";
-                                    $queryList1 = 'SELECT nombreDocente, apellidoPaterno, apellidoMaterno, curp FROM docente';
+                                    $queryList1 = 'SELECT nombre, apellidoPaterno, apellidoMaterno, curp FROM docente';
                                     $consultaList1 = consultarSQL($queryList1);
                                     
                                     while($filas = $consultaList1->fetch_array(MYSQLI_ASSOC)):
                                 ?>
                                     <option value="<?= $filas['curp']?>">
-                                        <?= $filas['nombreDocente'] ?>
+                                        <?= $filas['nombre'] ?>
                                         <?= $filas['apellidoPaterno'] ?>
                                         <?= $filas['apellidoMaterno'] ?>
                                     </option>
