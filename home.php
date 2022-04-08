@@ -22,7 +22,31 @@
     ?>
     <div class="container mt-5">
         <h1 class="title" style="text-align: center;">Bienvenido</h1>
-        <p class="fs-3" style="text-align: center;"><?= $_SESSION['user'] ?> <?= $_SESSION['apellidoP'] ?> <?= $_SESSION['apellidoM'] ?></p>
+        <?php
+            require_once "./php/conexion.php";
+            $query = "SELECT nPersonal, nombre, apellidoPaterno, apellidoMaterno, nivelAcademico, imagen, correo, curp FROM docente WHERE curp = '".$_SESSION['curp']."'";
+            $consulta = consultarSQL($query);
+            $datos = $consulta->fetch_array(MYSQLI_ASSOC);
+        ?>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col">
+                    <img src="<?= $datos['imagen']?>" class="img-fluid" alt="">
+                </div>
+                <div class="col">
+                    <p class="fs-3">
+                        <?= $datos['nivelAcademico'] ?>.
+                        <?= $datos['nombre'] ?>
+                        <?= $datos['apellidoPaterno'] ?>
+                        <?= $datos['apellidoMaterno'] ?>
+                    </p>
+                    <p> <strong>Correo: </strong><?= $datos['correo'] ?></p>
+                    <p> <strong>CURP: </strong><?= $datos['curp'] ?></p>
+                    <p> <strong>Número de Personal: </strong><?= $datos['nPersonal'] ?></p>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
     </div>
     <?php
         include("./inc/footer.php")

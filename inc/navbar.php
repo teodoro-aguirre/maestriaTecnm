@@ -39,9 +39,12 @@
                     </ul>
                 </li>
             </ul>
-            <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cerrarSesion">
-                Bienvenido: <?= $_SESSION['user'] ?>
-            </a>
+            <div style="margin-left: 70%;">
+                <a class="btn btn-secondary d-flex" data-bs-toggle="modal" data-bs-target="#cerrarSesion">
+                    Cerra sesión
+                </a>
+            </div>
+           
         </div>
     </div>
 </nav>
