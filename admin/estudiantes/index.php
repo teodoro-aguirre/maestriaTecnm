@@ -18,7 +18,7 @@
             <a href="../menu.php" class="button is-info">REGRESAR</a>
             <br><br>
             <div class="notification is-success is-light has-text-centered">
-                <p>LISTA DE DOCENTES</p>
+                <p>LISTA DE ESTUDIANTES</p>
                 
                 <a href="./alumno" class="button is-primary">REGISTRAR NUEVO ESTUDIANTES</a>
             </div>
@@ -37,13 +37,13 @@
                 <tbody>
                     <?php
                         include "../php/conexion.php";
-                        $queryList1 = 'SELECT nombreAlumno, apellidoPaterno, apellidoMaterno FROM alumno';
+                        $queryList1 = 'SELECT nombre, apellidoPaterno, apellidoMaterno FROM alumno';
                         $consultaList1 = consultarSQL($queryList1);
                         
                         while($filas = $consultaList1->fetch_array(MYSQLI_ASSOC)):
                     ?>
                     <tr>
-                        <td> <?= $filas['nombreAlumno'] ?> </td>
+                        <td> <?= $filas['nombre'] ?> </td>
                         <td> <?= $filas['apellidoPaterno'] ?> </td>
                         <td> <?= $filas['apellidoMaterno'] ?> </td>
                         <td> <a class="button is-info is-light" href="./aspirante.php?CURP=<?= $filas['CURP'] ?>">MODIFICAR</a> </td>

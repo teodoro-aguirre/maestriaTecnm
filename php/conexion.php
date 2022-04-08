@@ -2,7 +2,7 @@
 
     function consultarSQL($query){
         
-        $mysqli= new mysqli("localhost", "root", "", "posgrado");
+        $mysqli= new mysqli("162.241.61.203", "tecmisan_admin", "8vJtA6POp(FI", "tecmisan_posgrado");
         if(mysqli_connect_errno()){
             echo "Este sitio esta presentando problemas";
         }
