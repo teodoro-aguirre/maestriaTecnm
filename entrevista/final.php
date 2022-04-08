@@ -1,3 +1,18 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['verificar'])){
+        header("location: ./index.php");  
+    }
+
+    if(!isset($_GET['numeroControl']) || !isset($_GET['numeroControl'])){
+        echo'
+        <script type="text/javascript">
+            alert("No se seleccionado un alumno o tipo de entrevista");
+            history.back();
+        </script>';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,47 +27,104 @@
     <?php
         include("../inc/navbar.php")
     ?>
-    <div class="container-row mt-2">
-        <div class="row">
-            <div class="col col-md-1 col-lg-1 col-sm-1"></div>
-
-            <div class="col col-md-3 col-lg-4 col-10">
-                <img src="/assets/media/logos/logo-oficial.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-
-            <div class="col col-md-4 col-lg-4 col-mb-0">
-                <img src="/assets/media/logos/Tecnm-logo.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-            <div class="col-md-4 col-lg-3 col col-mb-0">
-                <img src="assets/media/logos/MARCAVERACRUZ.png" style="max-height: 120px;" class="img-fluid" alt="">
-            </div>
-            <div class="col-lg-1"></div>
-            <br>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="container" style="text-align: center;">
+        <div class="container mt-2" style="text-align: center;">
             <h1 class="title" style="text-align: center;">Entrevista tutor - tutorado</h1>
             <p class="fs-3">Final de semestre</p>
         </div>
-        <h4>Alumno: Juan Perez Delgado</h4>
-        <h4>Semestre: 4</h4>
-        <h4>Número de Control: 202T0321</h4>
-        <h4>Programa Académico: MSC</h4>
+        <?php
+            include_once "../php/conexion.php";
+            $nControl = $_GET['numeroControl'];
+            // Query consulta información del tutorado
+            $query = "SELECT nControl, nombre, apellidoPaterno, apellidoMaterno FROM alumno WHERE nControl='".$nControl."'";
+            $consulta = consultarSQL($query);
+            $datos = $consulta->fetch_array(MYSQLI_ASSOC);
+        ?>
+        <p class="fs-5"> <strong>Alumno: </strong>
+            <?= $datos['nombre'] ?>
+            <?= $datos['apellidoPaterno'] ?>
+            <?= $datos['apellidoMaterno'] ?>
+        </p>
+        <p class="fs-5"><strong>Promedio Semestre Anterior: </strong>
+            <?= $datos['nControl'] ?>
+        </p>
+        <p class="fs-5"><strong>Semestre Actual: </strong>
+            <?= $datos['nControl'] ?>
+        </p>
+        <p class="fs-5"><strong>Número de Control: </strong>
+            <?= $datos['nControl'] ?>
+        </p>
+        <?php
+            $queryPP = "SELECT programaPosgrado.nombrePP, programaPosgrado.abreviatura FROM programaPosgrado, alumno,alumnoPosgrado
+            WHERE alumno.nControl=alumnoPosgrado.alumno_nControl AND programaPosgrado.idpp=programaPosgrado_idpp
+            AND alumno.nControl='".$nControl."'";
+            $consultaPP = consultarSQL($queryPP);
+            $datosPP = $consultaPP->fetch_array(MYSQLI_ASSOC);
+        ?>
+        <p class="fs-5"><strong>Programa Académico: </strong>
+            <?= $datosPP['nombrePP'] ?>
+        </p>
         <hr>
         <form action="">
             <!-- SITUACIÓN ACADÉMICA -->
             <div class="alert alert-primary" style="text-align: center;" role="alert">
                 <strong>SITUACIÓN ACADÉMICA</strong>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Carga Académica</label>
-                <textarea placeholder="El tutorado debe informar de las materias y los docentes que se le asignaron en su carga académica. El tutor puede investigar si existen inconvenientes académicos en las materias del semestre, por ejemplo, dificultades de programación, problemas con matemáticas, temas desconocidos, horario, etc." class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
+            <?php
+                    // Query para obtener la carga academica del alumno
+                    
+                    $datosCarga = $consulta->fetch_array(MYSQLI_ASSOC);
+                ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Clave Materia</th>
+                        <th scope="col">Nombre Materia</th>
+                        <th scope="col">Creditos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    $queryCargaAcademica = "SELECT materia.idMateria, materia.nombreMateria, materia.creditos FROM materia, cargaAcademica, alumno
+                    WHERE alumno.nControl=cargaAcademica.alumno_nControl AND materia.idMateria=cargaAcademica.materia_idMateria
+                    AND alumno.nControl='".$datos['nControl']."'";
+                    $consultaCargaAcademica = consultarSQL($queryCargaAcademica);
+                    $total = $consultaCargaAcademica->num_rows;
+                    if($total):
+                        while($filas = $consultaCargaAcademica->fetch_array(MYSQLI_ASSOC)):
+                ?>
+                    <tr>
+                        <th scope="row">
+                            <?= $filas['idMateria'] ?>
+                        </th>
+                        <td>
+                            <?= $filas['nombreMateria'] ?>
+                        </td>
+                        <td>
+                            <?= $filas['creditos'] ?>
+                        </td>
+                    </tr>
+                    <?php
+                        endwhile;
+                    else:
+                ?>
+                    <tr>
+                        <td></td>
+                        <td>No tiene materias cargadas.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <?php
+                    endif;
+                ?>
+                </tbody>
+            </table>
+            <br>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Estrategias de estudio</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="El tutorado expresa las estrategias de estudio a implementar para la aprobación del semestre. El tutor puede dar sugerencias en este tópico." rows="3"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1"
+                    placeholder="El tutorado expresa las estrategias de estudio a implementar para la aprobación del semestre. El tutor puede dar sugerencias en este tópico."
+                    rows="3"></textarea>
             </div>
 
             <!-- SITUACIÓN PERSONAL -->
@@ -80,11 +152,13 @@
                 <input type="number" class="form-control" id="exampleFormControlTextarea1" aria-describedby="tesisHelp">
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Actividades programadas para el semestre</label>
+                <label for="exampleFormControlTextarea1" class="form-label">Actividades programadas para el
+                    semestre</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Productos programados para el semestre</label>
+                <label for="exampleFormControlTextarea1" class="form-label">Productos programados para el
+                    semestre</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
             </div>
         </form>
