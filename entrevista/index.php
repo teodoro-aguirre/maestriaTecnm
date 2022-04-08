@@ -1,22 +1,22 @@
 <?php
 
     // Validar si recibe el tipo de entrevista y matricula
-    if( isset($_GET['matricula']) || isset($_GET['tipo']) ){
+    if( !isset($_POST['numeroControl']) || !isset($_POST['tipo']) ){
         echo'
         <script type="text/javascript">
             alert("No se han recibio los datos solicitados");
             history.back();
         </script>';
     } else {
-        $matricula = $_GET['matricula'];
-        $tipoEntrevista = $_GET['tipo'];
+        $numeroControl = $_POST['numeroControl'];
+        $tipoEntrevista = $_POST['tipo'];
 
         if( $tipoEntrevista == "inicio" ){
-            header("Location: ./inicio", TRUE, 301);
+            header("Location: ./inicio.php?numeroControl=$numeroControl", TRUE, 301);
         } elseif ( $tipoEntrevista == "final" ) {
-            header("Location: ./final", TRUE, 301);
+            header("Location: ./final.php?numeroControl=$numeroControl", TRUE, 301);
         } elseif ( $tipoEntrevista == "extraordinaria" ) {
-            header("Location: ./extraordinaria", TRUE, 301);
+            header("Location: ./extraordinaria.php?numeroControl=$numeroControl", TRUE, 301);
         }
     }
 

@@ -21,7 +21,7 @@
         include("./inc/navbar.php")
     ?>
     <div class="container">
-        <h1 class="title" style="text-align: center;">Lista de alumnos tutorados</h1>
+        <h1 class="title mt-2" style="text-align: center;">Lista de alumnos tutorados</h1>
         <hr>
         <br>
         <table class="table">
@@ -111,17 +111,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="POST">
+                    <form action="./entrevista/index.php" method="POST">
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Numero de control:</label>
-                            <input type="text" class="form-control" id="recipient-name" disabled>
+                            <input type="text" class="form-control" name="numeroControl" id="recipient-name" readonly required>
                         </div>
                         <div class="field">
                             <div class="control">
                                 <p class="control has-icons-left has-icons-right">
                                     <label for="matriculaFormControlInput" class="form-label">Tipo: </label>
 
-                                    <select class="form-select" aria-label="Default select example" required>
+                                    <select class="form-select" name="tipo" aria-label="Default select example" required>
                                         <option value="inicio" selected>Inicio de semestre</option>
                                         <option value="final">Final de semestre</option>
                                         <option value="extraordinaria">Extraordinaria</option>
@@ -132,7 +132,7 @@
                                 </p>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary">Registrar entrevista</button>
+                        <button type="submit" class="btn btn-primary">Registrar entrevista</button>
                     </form>
                 </div>
                 <div class="modal-footer">
