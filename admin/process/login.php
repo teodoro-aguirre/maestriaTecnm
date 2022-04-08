@@ -1,6 +1,6 @@
 <?php
 
-    require_once "../../php/conexion.php";
+    require_once "../php/conexion.php";
 
     $user = $_POST['user'];
     $pass = md5($_POST['pass']);
