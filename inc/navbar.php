@@ -1,4 +1,4 @@
-<?php $url = "http://localhost/posgrado" ?>
+<?php $url = "http://localhost/maestria" ?>
 <div class="container-row mt-2">
     <div class="row">
         <div class="col col-md-1 col-lg-1 col-sm-1"></div>
@@ -41,7 +41,7 @@
             </ul>
             <div style="margin-left: 70%;">
                 <a class="btn btn-secondary d-flex" data-bs-toggle="modal" data-bs-target="#cerrarSesion">
-                    Cerra sesión
+                    Cerrar sesión
                 </a>
             </div>
            

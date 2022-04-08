@@ -9,7 +9,7 @@
       session_start();
       $_SESSION['curp']= $filas['curp'];
       $_SESSION['verificar']=true;
-      header("Location: ../home.php");
+      header("Location: ../home");
     }else{  
         echo'
         <script type="text/javascript">
