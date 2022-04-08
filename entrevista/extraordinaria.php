@@ -45,11 +45,23 @@
             <?= $datos['apellidoPaterno'] ?>
             <?= $datos['apellidoMaterno'] ?>
         </p>
+        <?php
+            $queryPromedio = "SELECT Max(semestre_idSemestre)-1, promedio FROM semestreAlumno
+            WHERE  alumno_nControl='$nControl'";
+            $consultaPromedio = consultarSQL($queryPromedio);
+            $datosPromedio = $consultaPromedio->fetch_array(MYSQLI_ASSOC);
+        ?>
         <p class="fs-5"><strong>Promedio Semestre Anterior: </strong>
-            <?= $datos['nControl'] ?>
+            <?= $datosPromedio['promedio'] ?>
         </p>
+        <?php
+            $querySemActual = "SELECT Max(semestre_idSemestre) FROM semestreAlumno
+            WHERE  alumno_nControl='$nControl'";
+            $consultaSemActual = consultarSQL($querySemActual);
+            $datosSemActual = $consultaSemActual->fetch_array(MYSQLI_NUM);
+        ?>
         <p class="fs-5"><strong>Semestre Actual: </strong>
-            <?= $datos['nControl'] ?>
+            <?= $datosSemActual[0] ?>
         </p>
         <p class="fs-5"><strong>Número de Control: </strong>
             <?= $datos['nControl'] ?>

@@ -12,3 +12,11 @@ AND alumno.nControl=''
 SELECT programaPosgrado.nombrePP, programaPosgrado.abreviatura FROM programaPosgrado, alumno,alumnoPosgrado
 WHERE alumno.nControl=alumnoPosgrado.alumno_nControl AND programaPosgrado.idpp=programaPosgrado_idpp
 AND alumno.nControl="";
+
+-- Consulta de promedio del semestre anterior
+SELECT Max(semestre_idSemestre)-1, promedio FROM semestreAlumno
+WHERE  alumno_nControl='';
+
+-- Consulta de semestre actual
+SELECT Max(semestre_idSemestre) FROM semestreAlumno
+WHERE  alumno_nControl='';
