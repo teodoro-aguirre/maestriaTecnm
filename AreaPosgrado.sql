@@ -23,79 +23,68 @@ CREATE TABLE alumno(
 
 /* Table 'semestre' */
 CREATE TABLE semestre
-  (`idSemestre` INT NOT NULL, semestre VARCHAR NOT NULL, PRIMARY KEY(`idSemestre`))
-  ;
+  (idSemestre INT NOT NULL, semestre VARCHAR(10) NOT NULL, PRIMARY KEY(`idSemestre`));
 
 /* Table 'entrevista' */
-CREATE TABLE entrevista(
-`idEntrevista` VARCHAR(10) NOT NULL, tipo VARCHAR(20) NOT NULL,
-  PRIMARY KEY(`idEntrevista`)
-);
+CREATE TABLE entrevista(`idEntrevista` VARCHAR(10) NOT NULL, tipo VARCHAR(20) NOT NULL, PRIMARY KEY(`idEntrevista`));
 
 /* Table 'preguntas' */
 CREATE TABLE preguntas(
-`idPregunta` VARCHAR(10) NOT NULL, pregunta VARCHAR(50) NOT NULL,
-  PRIMARY KEY(`idPregunta`)
-);
+`idPregunta` INT NOT NULL AUTO_INCREMENT, pregunta VARCHAR(50) NOT NULL, PRIMARY KEY(`idPregunta`));
 
 /* Table 'programaPosgrado' */
-CREATE TABLE `programaPosgrado`
-  (idpp VARCHAR(5) NOT NULL, `nombrePP` VARCHAR(30) NOT NULL, PRIMARY KEY(idpp))
-  ;
+CREATE TABLE programaPosgrado (idpp VARCHAR(15) NOT NULL, `nombrePP` VARCHAR(30) NOT NULL, PRIMARY KEY(idpp));
 
 /* Table 'tipoDocente' */
-CREATE TABLE `tipoDocente`(
-tipo VARCHAR(20) NOT NULL, `nivelAcademico` VARCHAR(15) NOT NULL,
+CREATE TABLE tipoDocente(
+tipo VARCHAR(20) NOT NULL, nivelAcademico VARCHAR(15) NOT NULL,
   docente_curp VARCHAR(18) NOT NULL
 );
 
 /* Table 'tutoria' */
 CREATE TABLE tutoria(
-  `idTutoria` INT(10) NOT NULL,
+  idTutoria INT NOT NULL AUTO_INCREMENT,
   docente_curp VARCHAR(18) NOT NULL,
-  `alumno_nControl` VARCHAR(8) NOT NULL,
-  `semestre_idSemestre` INT NOT NULL,
-  PRIMARY KEY(`idTutoria`)
+  alumno_nControl VARCHAR(8) NOT NULL,
+  semestre_idSemestre INT NOT NULL,
+  PRIMARY KEY(idTutoria)
 );
 
 /* Table 'docentepp' */
-CREATE TABLE docentepp
-  (`programaPosgrado_idpp` VARCHAR(5) NOT NULL, docente_curp VARCHAR(18) NOT NULL)
-  ;
+CREATE TABLE docentepp (programaPosgrado_idpp VARCHAR(15) NOT NULL, docente_curp VARCHAR(18) NOT NULL);
 
 /* Table 'entrevistaTutoria' */
-CREATE TABLE `entrevistaTutoria`(
-`tutoria_idTutoria` INT(10) NOT NULL,
-  `entrevista_idEntrevista` VARCHAR(10) NOT NULL
+CREATE TABLE entrevistaTutoria(
+  tutoria_idTutoria INT(10) NOT NULL,
+  entrevista_idEntrevista VARCHAR(10) NOT NULL
 );
 
 /* Table 'preguntasEntrevista' */
-CREATE TABLE `preguntasEntrevista`(
-`entrevista_idEntrevista` VARCHAR(10) NOT NULL,
-  `preguntas_idPregunta` VARCHAR(10) NOT NULL
+CREATE TABLE preguntasEntrevista(
+  entrevista_idEntrevista VARCHAR(10) NOT NULL,
+  preguntas_idPregunta INT NOT NULL
 );
 
 /* Table 'materia' */
 CREATE TABLE materia(
-`idMateira` VARCHAR(7) NOT NULL, `nombreMateria` VARCHAR(40) NOT NULL,
-  PRIMARY KEY(`idMateira`)
+  idMateira VARCHAR(7) NOT NULL, nombreMateria VARCHAR(40) NOT NULL,
+  PRIMARY KEY(idMateira)
 );
 
 /* Table 'cargaAcademica' */
-CREATE TABLE `cargaAcademica`
-  (`alumno_nControl` VARCHAR(8) NOT NULL, `materia_idMateira` VARCHAR(7) NOT NULL)
-  ;
+CREATE TABLE cargaAcademica
+  (alumno_nControl VARCHAR(8) NOT NULL, materia_idMateira VARCHAR(7) NOT NULL);
 
 /* Table 'alumnoPosgrado' */
-CREATE TABLE `alumnoPosgrado`(
-`programaPosgrado_idpp` VARCHAR(5) NOT NULL,
-  `alumno_nControl` VARCHAR(8) NOT NULL
+CREATE TABLE alumnoPosgrado(
+  programaPosgrado_idpp VARCHAR(15) NOT NULL,
+  alumno_nControl VARCHAR(8) NOT NULL
 );
 
 /* Table 'respuestaAlumno' */
-CREATE TABLE `respuestaAlumno`(
-`alumno_nControl` VARCHAR(8) NOT NULL,
-  `pregunta_idPregunta` VARCHAR(10) NOT NULL
+CREATE TABLE respuestaAlumno(
+  alumno_nControl VARCHAR(8) NOT NULL,
+  pregunta_idPregunta INT(11) NOT NULL
 );
 
 /* Table 'semestreAlumno' */
@@ -107,7 +96,7 @@ CREATE TABLE `semestreAlumno`(
 /* Table 'beca' */
 CREATE TABLE beca(
   `alumno_nControl` VARCHAR(8) NOT NULL,
-  `tiempoBeca` DATE(MONTH) NOT NULL,
+  `tiempoBeca` INT NOT NULL,
   `inicioBeca` DATE NOT NULL,
   `finBeca` DATE NOT NULL,
   `inicioEstudios` DATE NOT NULL,
@@ -121,24 +110,24 @@ CREATE TABLE resultadosproducto
 
 /* Table 'resultadoAlumno' */
 CREATE TABLE `resultadoAlumno`(
-`alumno_nControl` VARCHAR(10) NOT NULL, `resultados_idResultado` INT NOT NULL,
+`alumno_nControl` VARCHAR(8) NOT NULL, `resultados_idResultado` INT NOT NULL,
   `tutoria_idTutoria` INT(10) NOT NULL
 );
 
 /* Table 'producto' */
 CREATE TABLE producto(
-  `resultados_idResultado` INT NOT NULL,
+  resultados_idResultado INT NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
-  `avance ` FLOAT NOT NULL
+  avance FLOAT NOT NULL
 );
 
 /* Table 'actividad' */
 CREATE TABLE actividad(
-  `resultados_idResultado` INT NOT NULL,
+  resultados_idResultado INT NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
-  `avance ` FLOAT NOT NULL
+  avance FLOAT NOT NULL
 );
 
 /* Table 'resultadosactividad' */
@@ -146,8 +135,8 @@ CREATE TABLE resultadosactividad
   (`idResultado` INT NOT NULL, PRIMARY KEY(`idResultado`));
 
 /* Relation 'docente_tipoDocente' */
-ALTER TABLE `tipoDocente`
-  ADD CONSTRAINT `docente_tipoDocente`
+ALTER TABLE tipoDocente
+  ADD CONSTRAINT docente_tipoDocente
     FOREIGN KEY (docente_curp) REFERENCES docente (curp);
 
 /* Relation 'programaPosgrado_docentepp' */
