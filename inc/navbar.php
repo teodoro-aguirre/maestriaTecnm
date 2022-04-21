@@ -1,4 +1,4 @@
-<?php $url = "http://localhost/maestria" ?>
+<?php $url = "http://localhost/posgrado" ?>
 <div class="container-row mt-2">
     <div class="row">
         <div class="col col-md-1 col-lg-1 col-sm-1"></div>
