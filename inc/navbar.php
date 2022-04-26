@@ -20,7 +20,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark p-md-3" style="background-color: #691B33;">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= $url ?>">
-            Posgrado
+            Sistema Integral de Posgrado
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,9 +28,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?= $url ?>">Inicio</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdownMenuGobierno" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false" href="#">Tutoría</a>

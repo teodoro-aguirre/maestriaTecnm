@@ -45,6 +45,19 @@
             <?= $datos['apellidoPaterno'] ?>
             <?= $datos['apellidoMaterno'] ?>
         </p>
+        <p class="fs-5"><strong>Número de Control: </strong>
+            <?= $datos['nControl'] ?>
+        </p>
+        <?php
+            $queryPP = "SELECT programaPosgrado.nombrePP, programaPosgrado.abreviatura FROM programaPosgrado, alumno,alumnoPosgrado
+            WHERE alumno.nControl=alumnoPosgrado.alumno_nControl AND programaPosgrado.idpp=programaPosgrado_idpp
+            AND alumno.nControl='".$nControl."'";
+            $consultaPP = consultarSQL($queryPP);
+            $datosPP = $consultaPP->fetch_array(MYSQLI_ASSOC);
+        ?>
+        <p class="fs-5"><strong>Programa Académico: </strong>
+            <?= $datosPP['nombrePP'] ?>
+        </p>
         <?php
             $queryPromedio = "SELECT Max(semestre_idSemestre)-1, promedio FROM semestreAlumno
             WHERE  alumno_nControl='$nControl'";
@@ -63,19 +76,6 @@
         <p class="fs-5"><strong>Semestre Actual: </strong>
             <?= $datosSemActual[0] ?>
         </p>
-        <p class="fs-5"><strong>Número de Control: </strong>
-            <?= $datos['nControl'] ?>
-        </p>
-        <?php
-            $queryPP = "SELECT programaPosgrado.nombrePP, programaPosgrado.abreviatura FROM programaPosgrado, alumno,alumnoPosgrado
-            WHERE alumno.nControl=alumnoPosgrado.alumno_nControl AND programaPosgrado.idpp=programaPosgrado_idpp
-            AND alumno.nControl='".$nControl."'";
-            $consultaPP = consultarSQL($queryPP);
-            $datosPP = $consultaPP->fetch_array(MYSQLI_ASSOC);
-        ?>
-        <p class="fs-5"><strong>Programa Académico: </strong>
-            <?= $datosPP['nombrePP'] ?>
-        </p>
         <hr>
         <form action="../process/newEntrevista.php" method="post">
             <!-- SITUACIÓN ACADÉMICA -->
@@ -91,8 +91,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Clave Materia</th>
-                        <th scope="col">Nombre Materia</th>
+                        <th scope="col">Clave</th>
+                        <th scope="col">Materia</th>
                         <th scope="col">Creditos</th>
                     </tr>
                 </thead>
@@ -134,19 +134,19 @@
             </table>
             <h5>Estrategias de estudio</h5>
             <br>
-            <div class="row-fluid">
-                <div class="col-md-6">
-                    <label for="estrategias" class="text-left">Estrategia 1</label>
+            <div class="row g-3">
+                <div class="col-1" style="text-align: right;">
+                    <label for="estrategias" class="text-left">E1</label>
+                </div>
+                <div class="col-8">
                     <input type="text" name="estrategias[]" class="form-control" required>
                 </div>
-            </div>
-            <br>
-            <div class="row text-right" style="text-align: right;">
-                <div class="col-md-12">
+                <div class="col-3">
                     <a class="btn btn-success" id="btnMoreEstrategias">+</a>
                 </div>
             </div>
-            <div class="row-fluid" id="incrementaEstrategia">
+            <br>
+            <div class="row-fluid-estrategia" id="incrementaEstrategia">
             </div>
             <br>
             <!-- SITUACIÓN PERSONAL -->
@@ -178,13 +178,16 @@
             <div class="mb-3">
                 <label for="avanceControl" class="form-label">Porcentaje(%)</label>
                 <input type="number" name="avance" min="0" max="100" class="form-control" id="avanceControl"
-                    aria-describedby="tesisHelp">
+                    aria-describedby="tesisHelp" required>
             </div>
             <h5>Actividades programadas para el semestre</h5>
-            <div class="row-fluid">
-                <div class="col-md-6">
-                    <label for="actividadesControl" class="form-label">Actividad 1</label>
-                    <select class="form-select" name="actividades[]" id="actividadesControl" aria-label="Selecciona una actividad" required>
+            <div class="row g-3">
+                <div class="col-1" style="text-align: right;">
+                    <label for="actividadesControl" class="form-label">A1</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select" name="actividades[]" id="actividadesControl"
+                        aria-label="Selecciona una actividad" required>
                         <option selected>Selecciona una Actividad</option>
                         <?php
                                 require_once("../php/conexion.php");
@@ -199,20 +202,22 @@
                         <?php endwhile; ?>
                     </select>
                 </div>
-            </div>
-            <div class="row text-right" style="text-align: right;">
-                <div class="col-md-12">
+                <div class="col-3">
                     <a class="btn btn-success" id="btnMoreActividad">+</a>
                 </div>
             </div>
-            <div class="row-fluid" id="incrementaActividad">
+            <br>
+            <div class="row-fluid-actividad" id="incrementaActividad">
 
             </div>
             <h5>Productos programados para el semestre</h5>
-            <div class="row-fluid">
-                <div class="col-md-6">
-                    <label for="productosControl" class="form-label">Producto 1</label>
-                    <select class="form-select" name="productos[]" id="productosControl" aria-label="Selecciona un producto" required>
+            <div class="row g-3">
+                <div class="col-1" style="text-align: right;">
+                    <label for="productosControl" class="form-label">P1</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select" name="productos[]" id="productosControl"
+                        aria-label="Selecciona un producto" required>
                         <option selected>Selecciona un Producto</option>
                         <?php
                                 $queryProd = "SELECT idProducto, nombre FROM producto";
@@ -226,17 +231,16 @@
                         <?php endwhile; ?>
                     </select>
                 </div>
-            </div>
-            <div class="row text-right" style="text-align: right;">
-                <div class="col-md-12">
+                <div class="col-3">
                     <a class="btn btn-success" id="btnMoreProducto">+</a>
                 </div>
             </div>
-            <div class="row-fluid" id="incrementaProducto">
+            <br>
+            <div class="row-fluid-producto" id="incrementaProducto">
 
             </div>
             <div class="text-center">
-                <button type="submit" href="" class="btn btn-lg btn-danger">Registrar Entrevista</a>
+                <button type="submit" class="btn btn-lg btn-danger">Guardar datos</a>
             </div>
         </form>
 
@@ -249,28 +253,29 @@
             var i = 1;
             $('#btnMoreEstrategias').click(function () {
                 i++;
-                var div = '<div class="col-md-6"></div>';
-                var divInput = '<div class="col-md-5"><label for="estrategias" class="text-left">Estrategia ' + i + '</label>';
-                var inputCode = '<input type="text" name="estrategias[]" class="form-control" required></div>';
+                var div = '<div class="row g-3">';
+                var divInput = '<div class="col-1" style="text-align: right;"><label for="estrategias" class="text-left">E' + i + '</label></div>';
+                var inputCode = '<div class="col-8"><input type="text" name="estrategias[]" class="form-control" required></div>';
                 //Importante esta variable debe ir debajo del autoincrementable
-                var btnDeleteEst = '<button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_removeEstrategia">X</button>';
-                $('#incrementaEstrategia').append('<div class="row-fluid' + i + '">' + div + divInput + inputCode + ' <div class="col-md-1"><br> ' + btnDeleteEst + ' </div> </div><br>');
+                var btnDeleteEst = '<div class="col-3"><button type="button" name="removeEstrategia" id="' + i + '" class="btn btn-danger btn_removeEstrategia">X</button></div>';
+
+                $('#incrementaEstrategia').append('<div class="row-fluid-estrategia' + i + '">' + div + divInput + inputCode + '<div class="col-md-1">' + btnDeleteEst + ' </div> </div><br>');
             });
 
 
             $(document).on('click', '.btn_removeEstrategia', function () {
                 var button_id = $(this).attr("id");
-                $('.row-fluid' + button_id + '').remove();
+                $('.row-fluid-estrategia' + button_id + '').remove();
+                i--;
             });
 
             // incrementos en inputs dinamicos actividad
             var j = 1;
             $('#btnMoreActividad').click(function () {
-                console.log('press')
                 j++;
-                var div = '<div class="col-md-6"></div>';
-                var divSelect = '<div class="col-md-5"><label for="estrategias" class="text-left">Actividad ' + j + '</label>';
-                var selectAct = '<select class="form-select" name="actividades[]" id="actividadesControl" aria-label="Selecciona una actividad" required="">'
+                var div = '<div class="row g-3">';
+                var divSelect = '<div class="col-1" style="text-align: right;"><label for="actividadesControl" class="form-label">A' + j + '</label></div>';
+                var selectAct = '<div class="col-8"><select class="form-select" name="actividades[]" id="actividadesControl" aria-label="Selecciona una actividad" required>'
                     + '<option selected="">Selecciona una Actividad</option>'
                     + '<option value="1">Participación en congreso (nacional y/o internacional)</option>'
                     + '<option value="2">Estancia de investigación</option>'
@@ -278,43 +283,42 @@
                     + '<option value="4">Publicación de artículo en revista nacional y/o internacional</option>'
                     + '<option value="5">Realización de una o varias etapas del proyecto del proyecto de tesis</option>'
                     + '<option value="6">Otro</option>'
-                    + '</select>';
-                var btnDeleteAct = '<button type="button" name="remove" id="' + j + '" class="btn btn-danger btn_removeActividad">X</button>';
+                    + '</select></div>';
+                var btnDeleteAct = '<div class="col-3"><button type="button" name="removeActividad" id="' + j + '" class="btn btn-danger btn_removeActividad">X</button></div>';
 
-                $('#incrementaActividad').append('<div class="row-fluid' + j + '">' + div + divSelect + selectAct + '<div class="col-md-1"><br>' +
+                $('#incrementaActividad').append('<div class="row-fluid-actividad' + j + '">' + div + divSelect + selectAct + '<div class="col-md-1">' +
                     btnDeleteAct + '</div></div><br>');
+            });
 
-                $(document).on('click', '.btn_removeActividad', function () {
-                    var button_id = $(this).attr("id");
-                    $('.row-fluid' + button_id + '').remove();
-                });
-            })
-            
-            // incrementos en inputs dinamicos actividad
+            $(document).on('click', '.btn_removeActividad', function () {
+                var button_id = $(this).attr("id");
+                $('.row-fluid-actividad' + button_id + '').remove();
+            });
+
+            // incrementos en inputs dinamicos productos
             var k = 1;
             $('#btnMoreProducto').click(function () {
-                console.log('press')
                 k++;
-                var div = '<div class="col-md-6"></div>';
-                var divSelectProd = '<div class="col-md-5"><label for="estrategias" class="text-left">Actividad ' + k + '</label>';
-                var selectActProd = '<select class="form-select" id="productosControl" aria-label="Selecciona un producto" required="">'
+                var div = '<div class="row g-3">';
+                var divSelectProd = '<div class="col-1" style="text-align: right;"><label for="productosControl" class="form-label">P' + k + '</label></div>';
+                var selectActProd = '<div class="col-8"><select class="form-select" id="productosControl" aria-label="Selecciona un producto" required>'
                     + '<option selected="">Selecciona un Producto</option><option value="1">Cartel</option>'
                     + '<option value="2">Artículo</option>'
                     + '<option value="3">Prototipo</option>'
                     + '<option value="4">Modelo de utilidad</option>'
                     + '<option value="5">Software</option>'
                     + '<option value="6">Otro</option>'
-                    + '</select>';
-                var btnDeleteProd = '<button type="button" name="remove" id="' + k + '" class="btn btn-danger btn_removeProd">X</button>';
+                    + '</select></div>';
+                var btnDeleteProd = '<div class="col-3"><button type="button" name="removeProducto" id="' + k + '" class="btn btn-danger btn_removeProd">X</button></div>';
 
-                $('#incrementaProducto').append('<div class="row-fluid' + k + '">' + div + divSelectProd + selectActProd + '<div class="col-md-1"><br>' +
+                $('#incrementaProducto').append('<div class="row-fluid-producto' + k + '">' + div + divSelectProd + selectActProd + '<div class="col-md-1">' +
                     btnDeleteProd + '</div></div><br>');
+            });
 
-                $(document).on('click', '.btn_removeProd', function () {
-                    var button_id = $(this).attr("id");
-                    $('.row-fluid' + button_id + '').remove();
-                });
-            })
+            $(document).on('click', '.btn_removeProd', function () {
+                var button_id = $(this).attr("id");
+                $('.row-fluid-producto' + button_id + '').remove();
+            });
 
         });
     </script>
