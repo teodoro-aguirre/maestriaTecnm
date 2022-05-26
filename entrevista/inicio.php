@@ -39,12 +39,12 @@
             $query = "SELECT nControl, nombre, apellidoPaterno, apellidoMaterno FROM alumno WHERE nControl='".$nControl."'";
             $consulta = consultarSQL($query);
             $datos = $consulta->fetch_array(MYSQLI_ASSOC);
-            $queryTutoria = "SELECT tutoria.idTutoria, semestre_idSemestre FROM tutoria, alumno, docente
-            WHERE semestre_idSemestre=(SELECT MAX(semestre_idSemestre) FROM tutoria) 
-            AND tutoria.alumno_nControl=alumno.nControl 
-            AND tutoria.alumno_nControl='".$nControl."'
-            AND tutoria.docente_curp='".$_SESSION['curp']."'
-            AND tutoria.docente_curp=docente.curp;";
+            $queryTutoria = "SELECT tutoria.idTutoria, MAX(semestre_idSemestre) FROM tutoria, docente, alumno
+            WHERE tutoria.docente_curp = '".$_SESSION['curp']."'
+            AND tutoria.docente_curp = docente.curp 
+            AND tutoria.alumno_nControl = '".$nControl."'
+            GROUP BY tutoria.alumno_nControl;";
+
             $consultaTutoria = consultarSQL($queryTutoria);
             $datoTutoria = $consultaTutoria->fetch_array(MYSQLI_ASSOC);
         ?>
@@ -82,7 +82,7 @@
             $datosSemActual = $consultaSemActual->fetch_array(MYSQLI_NUM);
         ?>
         <p class="fs-5"><strong>Semestre Actual: </strong>
-            <?= $datoTutoria['semestre_idSemestre'] ?>
+            <?= $datosSemActual[0] ?>
         </p>
         <hr>
         <form action="../process/newEntrevista.php" method="post">
@@ -93,11 +93,6 @@
                 <strong>SITUACIÓN ACADÉMICA</strong>
             </div>
             <h5>Carga Academica</h5>
-            <?php
-                    // Query para obtener la carga academica del alumno
-                    
-                    $datosCarga = $consulta->fetch_array(MYSQLI_ASSOC);
-                ?>
             <table class="table">
                 <thead>
                     <tr>
@@ -108,9 +103,12 @@
                 </thead>
                 <tbody>
                     <?php 
-                    $queryCargaAcademica = "SELECT materia.idMateria, materia.nombreMateria, materia.creditos FROM materia, cargaAcademica, alumno
-                    WHERE alumno.nControl=cargaAcademica.alumno_nControl AND materia.idMateria=cargaAcademica.materia_idMateria
-                    AND alumno.nControl='".$datos['nControl']."'";
+                    $queryCargaAcademica = "SELECT materia.idMateira, materia.nombreMateria, materia.creditos 
+                    FROM materia, cargaAcademica, alumno 
+                    WHERE alumno.nControl=cargaAcademica.alumno_nControl 
+                    AND materia.idMateira=cargaAcademica.materia_idMateira 
+                    AND alumno.nControl='".$nControl."';";
+                    
                     $consultaCargaAcademica = consultarSQL($queryCargaAcademica);
                     $total = $consultaCargaAcademica->num_rows;
                     if($total):
@@ -118,7 +116,7 @@
                 ?>
                     <tr>
                         <th scope="row">
-                            <?= $filas['idMateria'] ?>
+                            <?= $filas['idMateira'] ?>
                         </th>
                         <td>
                             <?= $filas['nombreMateria'] ?>
