@@ -7,7 +7,13 @@
       } 
 
       if(!$_SESSION['verificar']){
-        header("Location: ./index.php");
+        header("Location: ./");
+      }
+
+      if($_SESSION['tipo'] != "ADMINISTRADOR"){
+        $_SESSION['verificar']=false;
+        session_destroy();
+        header("Location: ./");
       }
     ?>
 

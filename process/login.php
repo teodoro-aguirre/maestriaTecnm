@@ -9,6 +9,7 @@
       session_start();
       $_SESSION['curp']= $filas['curp'];
       $_SESSION['verificar']=true;
+      $_SESSION['tipo'] = "DOCENTE";
       header("Location: ../home");
     }else{  
         echo'

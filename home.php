@@ -24,7 +24,7 @@
         <h1 class="title" style="text-align: center;">Bienvenido</h1>
         <?php
             require_once "./php/conexion.php";
-            $query = "SELECT nPersonal, nombre, apellidoPaterno, apellidoMaterno, nivelAcademico, imagen, correo, curp FROM docente WHERE curp = '".$_SESSION['curp']."'";
+            $query = "SELECT nPersonal, nombre, apellidoPaterno, apellidoMaterno, nivelAcademico, correo, curp FROM docente WHERE curp = '".$_SESSION['curp']."'";
             $consulta = consultarSQL($query);
             $datos = $consulta->fetch_array(MYSQLI_ASSOC);
         ?>
