@@ -39,6 +39,14 @@
             $query = "SELECT nControl, nombre, apellidoPaterno, apellidoMaterno FROM alumno WHERE nControl='".$nControl."'";
             $consulta = consultarSQL($query);
             $datos = $consulta->fetch_array(MYSQLI_ASSOC);
+            $queryTutoria = "SELECT tutoria.idTutoria, semestre_idSemestre FROM tutoria, alumno, docente
+            WHERE semestre_idSemestre=(SELECT MAX(semestre_idSemestre) FROM tutoria) 
+            AND tutoria.alumno_nControl=alumno.nControl 
+            AND tutoria.alumno_nControl='".$nControl."'
+            AND tutoria.docente_curp='".$_SESSION['curp']."'
+            AND tutoria.docente_curp=docente.curp;";
+            $consultaTutoria = consultarSQL($queryTutoria);
+            $datoTutoria = $consultaTutoria->fetch_array(MYSQLI_ASSOC);
         ?>
         <p class="fs-5"> <strong>Alumno: </strong>
             <?= $datos['nombre'] ?>
@@ -74,10 +82,12 @@
             $datosSemActual = $consultaSemActual->fetch_array(MYSQLI_NUM);
         ?>
         <p class="fs-5"><strong>Semestre Actual: </strong>
-            <?= $datosSemActual[0] ?>
+            <?= $datoTutoria['semestre_idSemestre'] ?>
         </p>
         <hr>
         <form action="../process/newEntrevista.php" method="post">
+            <input type="hidden" name="idTutoria" value="<?= $datoTutoria['idTutoria'] ?>">
+            <input type="hidden" name="nControl" value="<?= $nControl ?>">
             <!-- SITUACIÓN ACADÉMICA -->
             <div class="alert alert-primary" style="text-align: center;" role="alert">
                 <strong>SITUACIÓN ACADÉMICA</strong>
@@ -176,7 +186,7 @@
             </div>
             <h5>Avance del Proyecto de tesis</h5>
             <div class="mb-3">
-                <label for="avanceControl" class="form-label">Porcentaje(%)</label>
+                <label for="avanceControl" class="form-label">Porcentaje(%) 0-100</label>
                 <input type="number" name="avance" min="0" max="100" class="form-control" id="avanceControl"
                     aria-describedby="tesisHelp" required>
             </div>
@@ -188,7 +198,7 @@
                 <div class="col-8">
                     <select class="form-select" name="actividades[]" id="actividadesControl"
                         aria-label="Selecciona una actividad" required>
-                        <option selected>Selecciona una Actividad</option>
+                        <option selected value="">Selecciona una Actividad</option>
                         <?php
                                 require_once("../php/conexion.php");
                                 $query = "SELECT idActividad, nombre FROM actividad";
@@ -218,7 +228,7 @@
                 <div class="col-8">
                     <select class="form-select" name="productos[]" id="productosControl"
                         aria-label="Selecciona un producto" required>
-                        <option selected>Selecciona un Producto</option>
+                        <option selected value="">Selecciona un Producto</option>
                         <?php
                                 $queryProd = "SELECT idProducto, nombre FROM producto";
                                 $resultadosProd = consultarSQL($queryProd);
@@ -275,8 +285,8 @@
                 j++;
                 var div = '<div class="row g-3">';
                 var divSelect = '<div class="col-1" style="text-align: right;"><label for="actividadesControl" class="form-label">A' + j + '</label></div>';
-                var selectAct = '<div class="col-8"><select class="form-select" name="actividades[]" id="actividadesControl" aria-label="Selecciona una actividad" required>'
-                    + '<option selected="">Selecciona una Actividad</option>'
+                var selectAct = '<div class="col-8"><select class="form-select" name="actividades[]" required id="actividadesControl" aria-label="Selecciona una actividad" required>'
+                    + '<option selected value="">Selecciona una Actividad</option>'
                     + '<option value="1">Participación en congreso (nacional y/o internacional)</option>'
                     + '<option value="2">Estancia de investigación</option>'
                     + '<option value="3">Redacción de artículo</option>'
@@ -301,8 +311,8 @@
                 k++;
                 var div = '<div class="row g-3">';
                 var divSelectProd = '<div class="col-1" style="text-align: right;"><label for="productosControl" class="form-label">P' + k + '</label></div>';
-                var selectActProd = '<div class="col-8"><select class="form-select" id="productosControl" aria-label="Selecciona un producto" required>'
-                    + '<option selected="">Selecciona un Producto</option><option value="1">Cartel</option>'
+                var selectActProd = '<div class="col-8"><select class="form-select" id="productosControl" required name = "productos[]" aria-label="Selecciona un producto" required>'
+                    + '<option selected value="">Selecciona un Producto</option><option value="1">Cartel</option>'
                     + '<option value="2">Artículo</option>'
                     + '<option value="3">Prototipo</option>'
                     + '<option value="4">Modelo de utilidad</option>'

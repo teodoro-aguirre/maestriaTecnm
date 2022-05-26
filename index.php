@@ -5,7 +5,7 @@
         error_reporting(E_PARSE);
     } 
     if($_SESSION['verificar']){
-      header("Location: ./home.php");
+      header("Location: ./home");
     }
 ?>
 <!DOCTYPE html>

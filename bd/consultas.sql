@@ -20,3 +20,6 @@ WHERE  alumno_nControl='';
 -- Consulta de semestre actual
 SELECT Max(semestre_idSemestre) FROM semestreAlumno
 WHERE  alumno_nControl='';
+
+-- Insertar productos
+INSERT INTO resultadoAlumno(`alumno_nControl`, `tutoria_idTutoria`, `producto_idProducto`) VALUES (" "," "," ");

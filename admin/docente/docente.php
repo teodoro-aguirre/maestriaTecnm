@@ -94,7 +94,7 @@
                         <label class="label">CORREO</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" name="correo" type="email" placeholder="CORREO"
-                                maxlength="50" required>
+                            onkeyup="javascript:this.value=this.value.toUpperCase();" maxlength="50" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-at"></i>
                             </span>

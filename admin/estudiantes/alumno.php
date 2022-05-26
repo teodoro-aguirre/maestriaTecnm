@@ -9,7 +9,7 @@
 
 <head>
     <?php include '../inc/link.php'; ?>
-    <title>Registro alumno</title>
+    <title>REGISTRO ALUMNO</title>
 </head>
 
 <body>
@@ -23,9 +23,9 @@
             <form action="./registroAlumno.php" method="POST" class="form">
                 <div class="columns">
                     <div class="field column">
-                        <label class="label">Numero de Control</label>
+                        <label class="label">NUMERO DE CONTROL</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" name="nControl" type="text" placeholder="Numero de control" maxlength="8"
+                            <input class="input" name="nControl" type="text" placeholder="NUMERO DE CONTROL" maxlength="8"
                                 onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-address-card"></i>
@@ -68,7 +68,7 @@
                         <label class="label">CURP</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" name="curp" type="text" placeholder="INGRESA TU CURP" maxlength="18"
-                                required>
+                            onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-address-card"></i>
                             </span>
@@ -78,7 +78,7 @@
                         <label class="label">CORREO</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" name="correo" type="email" placeholder="CORREO" maxlength="50"
-                                required>
+                            onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                             <span class="icon is-small is-left">
                                 <i class="fas fa-address-card"></i>
                             </span>
@@ -103,6 +103,28 @@
                                         <?= $filas['nombre'] ?>
                                         <?= $filas['apellidoPaterno'] ?>
                                         <?= $filas['apellidoMaterno'] ?>
+                                    </option>
+
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field column">
+                        <label class="label">SEMESTRE</label>
+
+                        <div class="control">
+                            <div class="select is-rounded">
+                                <select name="semestre" required>
+                                    <?php
+                                    $querySemestre = 'SELECT * FROM semestre;';
+                                    $consultaSemestre = consultarSQL($querySemestre);
+                                    
+                                    while($semestres = $consultaSemestre->fetch_array(MYSQLI_ASSOC)):
+                                ?>
+                                    <option value="<?= $semestres['idSemestre']?>">
+                                        <?= $semestres['semestre'] ?>
                                     </option>
 
                                     <?php endwhile; ?>

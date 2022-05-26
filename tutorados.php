@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(!isset($_SESSION['verificar'])){
-        header("location: ./index.php");  
+        header("location: ./");  
     }
 ?>
 
