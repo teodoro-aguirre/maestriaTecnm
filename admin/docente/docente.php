@@ -3,6 +3,10 @@
         session_start(); 
         error_reporting(E_PARSE);
     } 
+
+    if(!$_SESSION['verificar']){
+        header("Location: ../index.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">

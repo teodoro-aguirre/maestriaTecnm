@@ -3,6 +3,10 @@
         session_start(); 
         error_reporting(E_PARSE);
     } 
+
+    if(!$_SESSION['verificar']){
+        header("Location: ../index.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -37,17 +41,17 @@
                 <tbody>
                     <?php
                         include "../php/conexion.php";
-                        $queryList1 = 'SELECT nombreDocente, apellidoPaterno, apellidoMaterno FROM docente';
+                        $queryList1 = 'SELECT nombre, apellidoPaterno, apellidoMaterno, curp FROM docente';
                         $consultaList1 = consultarSQL($queryList1);
                         
                         while($filas = $consultaList1->fetch_array(MYSQLI_ASSOC)):
                     ?>
                     <tr>
-                        <td> <?= $filas['nombreDocente'] ?> </td>
+                        <td> <?= $filas['nombre'] ?> </td>
                         <td> <?= $filas['apellidoPaterno'] ?> </td>
                         <td> <?= $filas['apellidoMaterno'] ?> </td>
-                        <td> <a class="button is-info is-light" href="./aspirante.php?CURP=<?= $filas['CURP'] ?>">MODIFICAR</a> </td>
-                        <td> <a class="button is-danger is-light" href="../process/deleteuser.php?user=<?= $filas['usuario'] ?>">ELIMINAR</a> </td>
+                        <td> <a class="button is-info is-light" href="./docente.php?curp=<?= $filas['curp'] ?>">MODIFICAR</a> </td>
+                        <td> <a class="button is-danger is-light" href="../elimininarDocente.php?user=<?= $filas['curp'] ?>">ELIMINAR</a> </td>
                     </tr>
 
                     <?php endwhile; ?>
