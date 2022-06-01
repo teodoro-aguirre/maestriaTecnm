@@ -1,15 +1,18 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['verificar'])){
-        header("location: ./index.php");  
+    if(!isset($_SESSION)) 
+    { 
+      session_start(); 
+      error_reporting(E_PARSE);
+    } 
+
+    if(!$_SESSION['verificar']){
+      header("Location: ../../");
     }
 
-    if(!isset($_GET['numeroControl']) || !isset($_GET['numeroControl'])){
-        echo'
-        <script type="text/javascript">
-            alert("No se seleccionado un alumno o tipo de entrevista");
-            history.back();
-        </script>';
+    if($_SESSION['tipo'] != "ADMINISTRADOR"){
+      $_SESSION['verificar']=false;
+      session_destroy();
+      header("Location: ../../");
     }
 ?>
 
@@ -19,13 +22,13 @@
 <head>
     <title>Maestria ITSM - Entrevista</title>
     <?php
-        include("../inc/link.php")
+        include("../../inc/link.php")
     ?>
 </head>
 
 <body>
     <?php
-        include("../inc/navbar.php")
+        include("../../inc/navbar.php")
     ?>
     <div class="container">
         <div class="container mt-2" style="text-align: center;">
@@ -33,8 +36,9 @@
             <p class="fs-3">Inicio de semestre</p>
         </div>
         <?php
-            include_once "../php/conexion.php";
-            $nControl = $_GET['numeroControl'];
+            include_once "../../php/conexion.php";
+            $nControl = $_GET['nControl'];
+            $idTutoria = $_GET['idTutoria'];
             // Query consulta información del tutorado
             $query = "SELECT nControl, nombre, apellidoPaterno, apellidoMaterno FROM alumno WHERE nControl='".$nControl."'";
             $consulta = consultarSQL($query);
@@ -143,42 +147,79 @@
             </table>
             <h5>Estrategias de estudio</h5>
             <br>
-            <div class="row g-3">
-                <div class="col-1" style="text-align: right;">
-                    <label for="estrategias" class="text-left">E1</label>
-                </div>
-                <div class="col-8">
-                    <input type="text" name="estrategias[]" class="form-control" required>
-                </div>
-                <div class="col-3">
-                    <a class="btn btn-success" id="btnMoreEstrategias">+</a>
-                </div>
-            </div>
-            <br>
-            <div class="row-fluid-estrategia" id="incrementaEstrategia">
+            <div class="row g-3 ml-5">
+                <ol>
+                    <?php 
+                    $queryEstrategias = "SELECT estrategiasEstudio.estrategia,estrategiasEstudio.descripcion
+                    FROM estrategiasEstudio,tutoria,alumno,tutoriaEstrategia
+                    WHERE estrategiasEstudio.idEstrategia=tutoriaEstrategia.estrategiasEstudio_idEstrategia
+                    AND alumno.nControl=tutoria.alumno_nControl
+                    AND tutoria.idTutoria=tutoriaEstrategia.tutoria_idTutoria
+                    AND alumno.nControl='".$nControl."' AND tutoria.idTutoria=".$idTutoria.";";
+                    
+                    $consultaEstrategias = consultarSQL($queryEstrategias);
+                    $total = $consultaEstrategias->num_rows;
+                    if($total):
+                        while($filas = $consultaEstrategias->fetch_array(MYSQLI_ASSOC)):
+                ?>
+                    <li>
+                        <?= $filas['estrategia'] ?>
+                    </li>
+                    <?php 
+                        endwhile;
+                    endif;    
+                        ?>
+                </ol>
             </div>
             <br>
             <!-- SITUACIÓN PERSONAL -->
+            <?php
+                // Consulta de preguntas
+                $queryPreguntas = "SELECT respuestaAlumno.respuesta 
+                FROM respuestaAlumno, entrevista,entrevistaTutoria,alumno, tutoria,preguntas,preguntasEntrevista
+                WHERE alumno.nControl=tutoria.alumno_nControl
+                AND entrevista.idEntrevista=entrevistaTutoria.entrevista_idEntrevista
+                AND preguntas.idPregunta=preguntasEntrevista.preguntas_idPregunta
+                AND alumno.nControl=respuestaAlumno.alumno_nControl
+                AND preguntasEntrevista.preguntas_idPregunta=preguntas.idPregunta
+                AND preguntas.idPregunta=respuestaAlumno.preguntas_idPregunta
+                AND alumno.nControl='".$nControl."';";
+            ?>
             <div class="alert alert-primary" style="text-align: center;" role="alert">
                 <strong>SITUACIÓN PERSONAL</strong>
             </div>
             <h5>Problemas familiares</h5>
             <div class="mb-3">
                 <!-- <label for="problemaFamiliarControl" class="form-label">Problemas familiares</label> -->
+                <?php
+                    $queryProblemasFamiliares = "SELECT respuestaAlumno.respuesta FROM respuestaAlumno WHERE respuestaAlumno.alumno_nControl = '".$nControl."' and respuestaAlumno.preguntas_idPregunta = 3;";
+                    $resultado = consultarSQL($queryProblemasFamiliares);
+                    $datoProblemasFam = $resultado->fetch_array(MYSQLI_ASSOC);
+                ?>
                 <textarea placeholder="" class="form-control" name="problemasFamiliares" id="problemaFamiliarControl"
-                    rows="3" required></textarea>
+                    rows="3" required><?= $datoProblemasFam['respuesta'] ?></textarea>
             </div>
             <h5>Problemas Sentimentales</h5>
             <div class="mb-3">
                 <!-- <label for="problemasSentControl" class="form-label">Problemas sentimentales</label> -->
+                <?php
+                    $queryProblemasSent = "SELECT respuestaAlumno.respuesta FROM respuestaAlumno WHERE respuestaAlumno.alumno_nControl = '".$nControl."' and respuestaAlumno.preguntas_idPregunta = 8;";
+                    $resultado = consultarSQL($queryProblemasSent);
+                    $datoProblemasSent = $resultado->fetch_array(MYSQLI_ASSOC);
+                ?>
                 <textarea class="form-control" name="problemasSentimentales" id="problemasSentControl" placeholder=""
-                    rows="3" required></textarea>
+                    rows="3" required><?= $datoProblemasSent['respuesta'] ?></textarea>
             </div>
             <h5>Otras problematicas detectadas</h5>
             <div class="mb-3">
                 <!-- <label for="problematicasDetectControl" class="form-label">Otras problemáticas detectadas</label> -->
+                <?php
+                    $queryOtrasProm = "SELECT respuestaAlumno.respuesta FROM respuestaAlumno WHERE respuestaAlumno.alumno_nControl = '".$nControl."' and respuestaAlumno.preguntas_idPregunta = 4;";
+                    $resultado = consultarSQL($queryOtrasProm);
+                    $datoOtrasProbl = $resultado->fetch_array(MYSQLI_ASSOC);
+                ?>
                 <textarea class="form-control" name="problematicasDetectadas" id="problematicasDetectControl"
-                    placeholder="" rows="3" required></textarea>
+                    placeholder="" rows="3" required><?= $datoOtrasProbl['respuesta'] ?></textarea>
             </div>
             <div class="alert alert-primary" style="text-align: center;" role="alert">
                 <strong>PROYECTO DE TESIS</strong>
@@ -186,72 +227,49 @@
             <h5>Avance del Proyecto de tesis</h5>
             <div class="mb-3">
                 <label for="avanceControl" class="form-label">Porcentaje(%) 0-100</label>
+                <?php
+                    $queryAvance = "SELECT resultadoAlumno.avance FROM resultadoAlumno WHERE resultadoAlumno.alumno_nControl = '".$nControl."'";
+                    $resultado = consultarSQL($queryAvance);
+                    $datoAvance = $resultado->fetch_array(MYSQLI_ASSOC);
+                ?>
                 <input type="number" name="avance" min="0" max="100" class="form-control" id="avanceControl"
-                    aria-describedby="tesisHelp" required>
+                    aria-describedby="tesisHelp" value="<?= $datoAvance['avance']?>" required>
             </div>
             <h5>Actividades programadas para el semestre</h5>
-            <div class="row g-3">
-                <div class="col-1" style="text-align: right;">
-                    <label for="actividadesControl" class="form-label">A1</label>
-                </div>
-                <div class="col-8">
-                    <select class="form-select" name="actividades[]" id="actividadesControl"
-                        aria-label="Selecciona una actividad" required>
-                        <option selected value="">Selecciona una Actividad</option>
-                        <?php
-                                require_once("../php/conexion.php");
-                                $query = "SELECT idActividad, nombre FROM actividad";
-                                $resultados = consultarSQL($query);
-
-                                while($result = $resultados->fetch_array(MYSQLI_ASSOC)):
-                            ?>
-                        <option value="<?= $result['idActividad'] ?>">
-                            <?= $result['nombre'] ?>
-                        </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="col-3">
-                    <a class="btn btn-success" id="btnMoreActividad">+</a>
-                </div>
+            <div class="row g-3 ml-5">
+                <ol>
+                    <?php
+                        $queryActividad = "SELECT actividad.nombre FROM resultadoAlumno, actividad WHERE resultadoAlumno.alumno_nControl = '".$nControl."' and actividad.idActividad = resultadoAlumno.actividad_idActividad and resultadoAlumno.tutoria_idTutoria = ".$idTutoria.";";
+                        $resultados = consultarSQL($queryActividad);
+                        while($resultActividad = $resultados->fetch_array(MYSQLI_ASSOC)):
+                    ?>
+                    <li>
+                        <?= $resultActividad['nombre'] ?>
+                    </li>
+                    <?php endwhile; ?>
+                </ol>
             </div>
-            <br>
-            <div class="row-fluid-actividad" id="incrementaActividad">
-
-            </div>
-            <h5>Productos programados para el semestre</h5>
-            <div class="row g-3">
-                <div class="col-1" style="text-align: right;">
-                    <label for="productosControl" class="form-label">P1</label>
-                </div>
-                <div class="col-8">
-                    <select class="form-select" name="productos[]" id="productosControl"
-                        aria-label="Selecciona un producto" required>
-                        <option selected value="">Selecciona un Producto</option>
-                        <?php
-                                $queryProd = "SELECT idProducto, nombre FROM producto";
+    <h5>Productos programados para el semestre</h5>
+    <div class="row g-3 ml-5">
+        <ol>
+            <?php
+                                $queryProd = "SELECT producto.nombre FROM resultadoAlumno, producto
+                                WHERE resultadoAlumno.alumno_nControl = '".$nControl."'
+                                AND resultadoAlumno.tutoria_idTutoria= ".$idTutoria."
+                                AND producto.idProducto = resultadoAlumno.producto_idProducto;";
                                 $resultadosProd = consultarSQL($queryProd);
-    
                                 while($resultProd = $resultadosProd->fetch_array(MYSQLI_ASSOC)):
                             ?>
-                        <option value="<?= $resultProd['idProducto'] ?>">
-                            <?= $resultProd['nombre'] ?>
-                        </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-                <div class="col-3">
-                    <a class="btn btn-success" id="btnMoreProducto">+</a>
-                </div>
-            </div>
-            <br>
-            <div class="row-fluid-producto" id="incrementaProducto">
+            <li>
+                <?= $resultProd['nombre'] ?>
+            </li>
+            <?php endwhile; ?>
+        </ol>
+    </div>
+    <br>
 
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-lg btn-danger">Guardar datos</a>
-            </div>
-        </form>
+    </div>
+    </form>
 
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

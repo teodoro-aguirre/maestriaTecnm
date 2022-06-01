@@ -31,7 +31,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido Paterno</th>
                     <th scope="col">Apellido Materno</th>
-                    <th scope="col">Registrar entrevista</th>
+                    <th scope="col">Entrevista</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,8 +58,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#tipoEntrevistaModal" data-bs-whatever="<?= $filas['nControl'] ?>">Registrar
-                            entrevista</button>
+                            data-bs-target="#tipoEntrevistaModal" data-bs-whatever="<?= $filas['nControl'] ?>">Registrar</button>
                     </td>
                 </tr>
                 <?php

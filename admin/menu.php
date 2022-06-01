@@ -36,7 +36,7 @@
             <br>
             <div class="columns has-text-centered">
                 <div class="column">
-                    <a href="./aspirantes" class="button is-primary">PROCESOS</a>
+                    <a href="./procesos" class="button is-primary">PROCESOS</a>
                 </div>
                 <div class="column">
                     <a href="./estudiantes" class="button is-primary">ESTUDIANTES</a>

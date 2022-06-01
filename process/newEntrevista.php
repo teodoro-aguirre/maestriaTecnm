@@ -38,6 +38,7 @@
         $actividades = $_POST['actividades'];
         $productos = $_POST['productos'];
         $totalEstrategias = count($estrategias);
+        $tipoTutoria = $_POST['tipoTutoria'];
 
         // '1','Carga académica','El tutorado debe informar de las materias y los docentes que se le asignaron en su carga académica. El tutor puede investigar si existen inconvenientes académicos en las materias del semestre, por ejemplo, dificultades de programación, problemas con '
         // '2','Estrategias de estudio','El tutorado expresa las estrategias de estudio a implementar para la aprobación del semestre. El tutor puede dar sugerencias en este tópico.'
@@ -92,12 +93,14 @@
             VALUES (".$resultado['idEstrategia'].", ".$idTutoria.")";
             
             if(!consultarSQL($queryRelacion)){
+                console.log("Error al registrar relacion");
                 $bandera = false;
             }
 
         }
 
         if($bandera == false){
+            console.log("Error al registrar relacion con estrategias");
             echo "
                 <script>
                 Swal.fire({
@@ -114,9 +117,6 @@
 
         // Insertar preguntas
 
-
-
-
         $queryPregunta3 = "INSERT INTO respuestaAlumno(alumno_nControl, preguntas_idPregunta, respuesta)
         VALUES ('".$nControl."', 3, '".$problemasFamiliares."')";
 
@@ -124,6 +124,7 @@
                 
         } else {
             $bandera = false;
+            console.log("Error al registrar pregunta con clave 3");
             echo "
                     <script>
                     Swal.fire({
@@ -142,8 +143,10 @@
         VALUES ('".$nControl."', 8, '".$problemasSentimentales."')";
 
         if(consultarSQL($queryPregunta8)){
-            $bandera = false;
+            
         } else {
+            $bandera = false;
+            console.log("Error al registrar pregunta con clave 8");
             echo "
                     <script>
                     Swal.fire({
@@ -165,6 +168,7 @@
             
         } else {
             $bandera = false;
+            console.log("Error al registrar pregunta con clave 4");
             echo "
                     <script>
                     Swal.fire({
@@ -188,6 +192,7 @@
             
         } else {
             $bandera = false;
+            console.log("Error al registrar avance");
             echo "
                     <script>
                     Swal.fire({
@@ -219,6 +224,7 @@
         }
 
         if(!$banderaActividad){
+            console.log("Error al registrar actividades");
             echo "
             <script>
             Swal.fire({
@@ -250,12 +256,33 @@
         }
 
         if(!$banderaProducto){
+            console.log("Error al registrar productos");
             echo "
             <script>
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: 'Error en el registro de productos',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                location.href='$url/tutorados';
+                } 
+            })
+            </script>";
+        }
+
+        // relacionar entrevista con tutoria
+        $queryEntrevista = "INSERT INTO `entrevistaTutoria`(`tutoria_idTutoria`, `entrevista_idEntrevista`) 
+        VALUES (".$idTutoria.", ".$tipoTutoria.")";
+        if(!consultarSQL($queryEntrevista)){
+            $bandera = false;
+            console.log("Error al relacionar entrevista con tutoria");
+            echo "
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'OCURRIO UN ERROR INESPERADO',
+                text: 'Ocurrio un error al relacionar entrevista con tutoria',
             }).then((result) => {
                 if (result.isConfirmed) {
                 location.href='$url/tutorados';
@@ -277,10 +304,20 @@
                 } 
             })
             </script>";
+        } else {
+            console.log("Error inesperado");
+            echo "
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'OCURRIO UN ERROR INESPERADO',
+                text: 'Ocurrio un error inesperado',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                location.href='$url/tutorados';
+                } 
+            })
+            </script>";
         }
     }
-
-    
-
-    
 ?>
