@@ -34,21 +34,31 @@
         <div class="container">
             <h1 class="is-size-4">Menú de ingreso</h1>
             <br>
-            <div class="columns has-text-centered">
-                <div class="column">
-                    <a href="./procesos" class="button is-primary">PROCESOS</a>
+            <div class="row">
+                <div class="shadow p-3 mb-5 bg-white col-md-3 col-12 mr-1 rounded has-text-centered">
+                    <p class="is-size-5"><strong>Procesos</strong></p>
+                    <img src="img/list-check-solid.svg" alt="Logo procesos" class="img-fluid block"
+                        width="80"><br>
+                    <a href="./procesos" class="button is-link">Ingresar</a>
                 </div>
-                <div class="column">
-                    <a href="./estudiantes" class="button is-primary">ESTUDIANTES</a>
+                <div class="shadow p-3 ml-2 mb-5 bg-white col-md-3 col-12 mr-1 rounded has-text-centered">
+                    <p class="is-size-5"><strong>Estudiantes</strong></p>
+                    <img src="img/users-solid.svg" alt="Logo estudiantes" class="img-fluid block"
+                        width="80"><br>
+                    <a href="./estudiantes" class="button is-link">Ingresar</a>
                 </div>
-                <?php if($_SESSION['tipo'] == "ADMINISTRADOR"): ?>
-                <div class="column">
-                    <a href="./usuarios/lista" class="button is-primary">USUARIOS</a>
+                <div class="shadow p-3 ml-2 mb-5 bg-white col-md-3 col-12 mr-1 rounded has-text-centered">
+                    <p class="is-size-5"><strong>Usuarios</strong></p>
+                    <img src="img/users-solid.svg" alt="Logo estudiantes" class="img-fluid block"
+                        width="80"><br>
+                    <a href="./usuarios/lista" class="button is-link">Ingresar</a>
                 </div>
-                <div class="column">
-                    <a href="./docente" class="button is-primary">DOCENTES  </a>
+                <div class="shadow p-3 ml-2 mb-5 bg-white col-md-3 col-12 mr-1 rounded has-text-centered">
+                    <p class="is-size-5"><strong>Docentes</strong></p>
+                    <img src="img/users-solid.svg" alt="Logo estudiantes" class="img-fluid block"
+                        width="80"><br>
+                    <a href="./docente" class="button is-link">Ingresar</a>
                 </div>
-                <?php endif ?>
             </div>
         </div>
     </section>
