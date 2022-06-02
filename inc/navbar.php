@@ -33,6 +33,7 @@
                         data-bs-toggle="dropdown" aria-expanded="false" href="#">Tutoría</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuGobierno">
                         <li><a class="dropdown-item" href="<?= $url ?>/tutorados">Tutorados</a></li>
+                        <li><a class="dropdown-item" href="<?= $url ?>/entrevistas">Entrevistas</a></li>
                     </ul>
                 </li>
             </ul>
