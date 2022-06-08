@@ -23,7 +23,7 @@
             <a href="./" class="btn is-info">REGRESAR</a>
             <br><br>
             <div class="alert alert-primary" style="text-align: center;">
-                <p>LISTA DE ENTREVISTA</p>
+                <p>LISTA DE ENTREVISTAS</p>
             </div>
 
 
@@ -34,6 +34,7 @@
                         <th>Nombre Alumno</th>
                         <th>Tutor</th>
                         <th>Tipo Entrevista</th>
+                        <th>Archivo</th>
                         <th>Ver</th>
                     </tr>
                 </thead>
@@ -56,7 +57,10 @@
                         <td><?= $filas[1] ?> <?= $filas[2] ?> <?= $filas[3] ?></td>
                         <td><?= $filas[4] ?> <?= $filas[5] ?> <?= $filas[6] ?></td>
                         <td><?= $filas[7] ?></td>
-                        <td> <a class="button is-info is-light" href="./entrevista.php?nControl=<?= $filas[8] ?>&idTutoria=<?= $filas[0] ?>">VER</a> </td>
+                        <td> <a class="" href="./process/documentoEntrevista.php?nControl=<?= $filas[8] ?>&idTutoria=<?= $filas[0] ?>">
+                        <img src="./assets/file-lines-solid.svg" width="20" alt="">
+                            </a> </td>
+                        <td> <a class="btn btn-primary" href="./entrevista/entrevista.php?nControl=<?= $filas[8] ?>&idTutoria=<?= $filas[0] ?>">VER</a> </td>
                     </tr>
 
                     <?php endwhile; ?>

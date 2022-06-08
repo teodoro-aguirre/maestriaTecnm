@@ -1,4 +1,4 @@
-<?php $url = "https://tecmisantla.tech/posgrado" ?>
+<?php $url = "http://localhost/posgrado/admin" ?>
 <?php $url2 = "http://localhost/maestria" ?>
 
 <div class="container-row mt-2">
@@ -6,13 +6,13 @@
         <div class="col col-md-1 col-lg-1 col-sm-1"></div>
 
         <div class="col col-md-3 col-lg-4 col-10">
-            <img src="<?= $url ?>/assets/media/logos/logo-oficial.png" style="max-height: 120px;" class="img-fluid" alt="">
+            <img src="https://tecmisantla.tech/posgrado/assets/media/logos/logo-oficial.png" style="max-height: 120px;" class="img-fluid" alt="">
         </div>
         <div class="col col-md-4 col-lg-4 col-mb-0">
-            <img src="<?= $url ?>/assets/media/logos/Tecnm-logo.png" style="max-height: 120px;" class="img-fluid" alt="">
+            <img src="https://tecmisantla.tech/posgrado/assets/media/logos/Tecnm-logo.png" style="max-height: 120px;" class="img-fluid" alt="">
         </div>
         <div class="col-md-4 col-lg-3 col col-mb-0">
-            <img src="<?= $url ?>/assets/media/logos/MARCAVERACRUZ.png" style="max-height: 120px;" class="img-fluid" alt="">
+            <img src="https://tecmisantla.tech/posgrado/assets/media/logos/MARCAVERACRUZ.png" style="max-height: 120px;" class="img-fluid" alt="">
         </div>
         <div class="col-lg-1"></div>
         <br>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <a type="button" href="<?= $url2 ?>/admin/process/logout.php" class="btn btn-danger">Salir</a> <!-- Cambiar href-->
+                        <a type="button" href="<?= $url ?>/process/logout.php" class="btn btn-danger">Salir</a> <!-- Cambiar href-->
                     </div>
                 </div>
             </div>
